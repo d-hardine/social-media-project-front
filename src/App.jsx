@@ -1,9 +1,8 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import Home from './pages/Home'
+import Auth from './pages/Auth'
 import Test from './pages/Test'
 import { useState, useEffect } from 'react'
 
@@ -45,9 +44,8 @@ function App() {
   return (
     <>
       <Container>
-        <Button onClick={toggleTheme}>change theme</Button>
         <Routes>
-          <Route path='/' element={<Home />}/>
+          <Route path='/' element={<Auth />}/>
           <Route path='/test' element={<Test />}/>
         </Routes>
       </Container>
