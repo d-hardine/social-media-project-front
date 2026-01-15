@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Container from 'react-bootstrap/Container'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Auth from './pages/Auth'
-import Test from './pages/Test'
+import Signup from './pages/Signup'
+import Home from './pages/Home'
 import { useState, useEffect } from 'react'
 
 function App() {
@@ -45,8 +46,10 @@ function App() {
     <>
       <Container>
         <Routes>
-          <Route path='/' element={<Auth />}/>
-          <Route path='/test' element={<Test />}/>
+          <Route path='/' element={<Auth theme={theme}/>}/>
+          <Route path='/home' element={<Home />}/>
+          <Route path='/signup' element={<Signup theme={theme}/>}/>
+          <Route path='*' element={<Navigate to="/" />} />
         </Routes>
       </Container>
     </>
