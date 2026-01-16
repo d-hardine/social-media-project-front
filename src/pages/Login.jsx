@@ -8,11 +8,13 @@ import { Link, useNavigate } from "react-router-dom"
 import logo from '../assets/information-svgrepo-com.svg'
 import { useState } from "react"
 
-function Auth({theme}) {
+function Login({theme, setUser}) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
+
+  axios.defaults.withCredentials = true;
 
   const navigate = useNavigate()
 
@@ -22,9 +24,9 @@ function Auth({theme}) {
       username,
       password,
     }
-    const loginResponse = await axios.post(`${API_BASE_URL}/api/login`, loginUser)
-    console.log(loginResponse.data)
+    const loginResponse = await axios.post(`${API_BASE_URL}/api/login`, loginUser, { withCredentials: true })
     if(loginResponse.status === 201)
+      setUser(loginResponse.data)
       navigate('/home')
   }
 
@@ -52,8 +54,9 @@ function Auth({theme}) {
         </Form>
         <div className="text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
       </Col>
+      <Link to={'/profile'}>test profile page</Link>
     </Row>
   );
 }
 
-export default Auth
+export default Login
