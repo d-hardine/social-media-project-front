@@ -9,6 +9,7 @@ import logo from '../assets/information-svgrepo-com.svg'
 import { useState, useContext } from "react"
 import UserContext from "../config/UserContext"
 import ThemeContext from "../config/ThemeContext"
+import Container from "react-bootstrap/Container"
 
 function Login() {
   const [username, setUsername] = useState('')
@@ -34,32 +35,34 @@ function Login() {
   if(user) { return(<Navigate to="/home"/>) }
 
   return (
-    <Row className="align-items-center justify-content-center" style={{height: '100vh'}}>
-      <Col className="d-none d-md-block col-9 text-center">
-        <h2><b>Hardine Book</b></h2>
-        <h5>Always Connected, Anywhere You Are.</h5>
-        <Image src={logo} width={'500px'} className="text-center"/>
-      </Col>
-      <Col>
-        <h3><b>Welcome back!</b></h3>
-        <div className="mb-4">We've been waiting for you.</div>
-        <Form onSubmit={handleLogin}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Username</Form.Label>
-            <Form.Control type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} required/>
-          </Form.Group>
+    <Container>
+      <Row className="align-items-center justify-content-center" style={{height: '100vh'}}>
+        <Col className="d-none d-md-block col-9 text-center">
+          <h2><b>Hardine Book</b></h2>
+          <h5>Always Connected, Anywhere You Are.</h5>
+          <Image src={logo} width={'500px'} className="text-center"/>
+        </Col>
+        <Col>
+          <h3><b>Welcome back!</b></h3>
+          <div className="mb-4">We've been waiting for you.</div>
+          <Form onSubmit={handleLogin}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} required/>
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required/>
-          </Form.Group>
-          <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Login</Button>
-        </Form>
-        <div className="text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
-      </Col>
-      <Link to={'/home'}>test home page</Link>
-      <Link to={'/profile'}>test profile page</Link>
-    </Row>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required/>
+            </Form.Group>
+            <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Login</Button>
+          </Form>
+          <div className="text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
+        </Col>
+        <Link to={'/home'}>test home page</Link>
+        <Link to={'/profile'}>test profile page</Link>
+      </Row>
+    </Container>
   );
 }
 

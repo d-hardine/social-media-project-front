@@ -74,7 +74,6 @@ function App() {
     <>
       <ThemeContext.Provider value={{theme, setTheme}}>
       <UserContext.Provider value={{user, setUser}}>
-        <Container>
           <Routes>
             <Route path='/' element={<Login />}/>
             <Route path='/signup' element={<Signup />}/>
@@ -84,7 +83,6 @@ function App() {
             </Route>
             <Route path='*' element={<Navigate to="/" />} />
           </Routes>
-        </Container>
       </UserContext.Provider>
       </ThemeContext.Provider>
     </>

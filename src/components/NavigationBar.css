@@ -1,0 +1,9 @@
+.navbar-background-color {
+    background-color: #715A5A;
+}
+
+/*override active color from the original blue*/
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #715A5A !important;
+}

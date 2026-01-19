@@ -1,22 +1,22 @@
-import { Link, useNavigate } from "react-router-dom"
-import Button from "react-bootstrap/Button"
-import logoutFunction from "../config/logoutFunction"
+import { Link } from "react-router-dom"
 import UserContext from "../config/UserContext"
 import { useContext } from "react"
+import Container from "react-bootstrap/Container"
+import NavigationBar from "../components/NavigationBar"
 
 function Home() {
 
-    const { user, setUser } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
 
-    const navigate = useNavigate() //THIS IS ESSENTIAL FOR LOGOUT FUNCTION
-
-    return (
-        <>
-            <div>You're logged in</div>
-            <Link to="/profile">go to profile page</Link>
-            <Button onClick={() => logoutFunction(setUser,navigate)}>logout test</Button>
-        </>
-    )
+  return (
+    <>
+      <NavigationBar />
+      <Container>
+        <div>You're logged in</div>
+        <Link to="/profile">go to profile page</Link>
+      </Container>
+    </>
+  )
 }
 
 export default Home
