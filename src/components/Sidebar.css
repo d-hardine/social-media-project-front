@@ -1,11 +1,7 @@
 /*override active color from the original blue*/
 .list-group-item.active {
-    background-color: #2b3035 !important;
+    background-color: #715A5A !important;
+    border-top: #715A5A;
     border-bottom: #715A5A;
     font-weight: bolder;
-}
-
-.list-group-item {
-    border: none;
-    border-radius: 20px;
 }

@@ -15,7 +15,7 @@ function Message() {
       <NavigationBar />
       <Container>
         <Row className="pt-4">
-          <Col className="col-3">
+          <Col className="col-2">
             <Sidebar />
           </Col>
           <Col className="col-9">

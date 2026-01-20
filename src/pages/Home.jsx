@@ -15,10 +15,10 @@ function Home() {
       <NavigationBar />
       <Container>
         <Row className="pt-4">
-          <Col className="col-3">
+          <Col className="col-2">
             <Sidebar />
           </Col>
-          <Col className="col-6">
+          <Col className="col-7">
             Status Update
           </Col>
           <Col className="col-3">
