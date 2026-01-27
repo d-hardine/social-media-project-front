@@ -11,6 +11,8 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import { useEffect, useState, useContext } from "react"
 import { formatDistanceToNow } from "date-fns"
+import { BounceLoader } from "react-spinners"
+import StatusCard from "../components/StatusCard"
 
 function Status() {
 
@@ -26,7 +28,7 @@ function Status() {
 
   const retrieveSinglePost = async () => {
     try {
-      const retrieveResponse =  await axiosInstance(`/api/single-post/${params.statusId}`)
+      const retrieveResponse =  await axiosInstance.get(`/api/single-post/${params.statusId}`)
       if(retrieveResponse.status === 200) {
         setPost(retrieveResponse.data.singlePost)
       }
@@ -39,7 +41,7 @@ function Status() {
 
   const retrieveComments = async () => {
     try {
-      const retrieveComments =  await axiosInstance(`/api/comments/${params.statusId}`)
+      const retrieveComments =  await axiosInstance.get(`/api/comments/${params.statusId}`)
       if(retrieveComments.status === 200) {
         setComments(retrieveComments.data.comments)
       }
@@ -61,6 +63,7 @@ function Status() {
       const commentResponse = await axiosInstance.post('/api/create-comment', {newComment, postId: params.statusId})
       if(commentResponse.status === 200) {
         retrieveComments()
+        retrieveSinglePost()
         setNewComment('')
         e.target.reset()
       }
@@ -80,23 +83,17 @@ function Status() {
         <Col className="col-7">
           {!isStatusLoading ?
             (
-            <div className="d-flex p-3 gap-3 h-50 border">
-              <Image src={post.author.profilePic} className="object-fit-cover mt-1" width='35px' height='35px' roundedCircle/>
-              <div className="post-content">
-                <div><b>{post.author.name}</b> <span className="text-muted">@{post.author.username}</span> · <span className="text-muted">{formatDistanceToNow(post.createdAt, {addSuffix: true})}</span></div>
-                <div>{post.content}</div>
-              </div>
-            </div>
+              <StatusCard post={post}/>
             ) :
             (
-              <div>Loading Status...</div>
+              <BounceLoader />
             )
           }
           <div className="mt-3 mb-3">Comment section</div>
           {!isCommentLoading ?
           (
             <>
-            <Form onSubmit={handleSubmitComment}>
+            <Form onSubmit={handleSubmitComment} className="mb-3">
                 <Form.Group className="mb-3" controlId="createComment">
                   <Form.Control style={{ resize: "none" }} as="textarea" rows={2} placeholder="Post your comment" onChange={(e) => setNewComment(e.target.value)} required />
                 </Form.Group>

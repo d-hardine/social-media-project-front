@@ -1,5 +1,6 @@
 import { Outlet, useLocation, Navigate, useNavigate } from "react-router-dom"
 import { useEffect, useContext } from "react"
+import { BounceLoader } from "react-spinners"
 import axiosInstance from "../config/axiosInstance"
 import logoutFunction from "../config/logoutFunction"
 import UserContext from "../config/UserContext"
@@ -28,11 +29,11 @@ function ProtectedRoutes({ isLoading, setIsLoading}) {
     checkAuth()
     }, [location.pathname])
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <BounceLoader />
     else if (!user) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/login" replace />
     } else {
-        return <Outlet />;
+        return <Outlet />
     }
 }
 

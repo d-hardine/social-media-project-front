@@ -15,8 +15,8 @@ import ThemeContext from "../config/ThemeContext"
 
 const Sidebar = () => {
 
-    const { theme, setTheme } = useContext(ThemeContext)
-    
+    const { theme } = useContext(ThemeContext)
+
     return(
             <ListGroup variant="flush">
                 <CustomLinkBootStrap to="/home" action>

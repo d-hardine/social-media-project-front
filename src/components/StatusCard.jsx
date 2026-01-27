@@ -1,0 +1,93 @@
+import './StatusCard.css'
+import Image from "react-bootstrap/Image"
+import { formatDistanceToNow } from "date-fns"
+import commentIconWhite from '../assets/comment-icon-white.svg'
+import commentIconBlack from '../assets/comment-icon-black.svg'
+import likeIconWhite from '../assets/like-icon-white.svg'
+import likeIconBlack from '../assets/like-icon-black.svg'
+import likeIconRed from '../assets/like-icon-red.svg'
+import { useNavigate } from "react-router-dom"
+import { useContext, useEffect, useState } from 'react'
+import UserContext from '../config/UserContext'
+import ThemeContext from "../config/ThemeContext"
+import axiosInstance from '../config/axiosInstance'
+
+function StatusCard({post}) {
+
+  const navigate = useNavigate()
+
+  const { theme } = useContext(ThemeContext)
+  const { user } = useContext(UserContext)
+
+  const [totalLikes, setTotalLikes] = useState(0)
+  const [isLiked, setIsLiked] = useState(false)
+  const [isLikeLoading, setIsLikeLoading] = useState(true)
+
+  const retrieveLike = async () => {
+    try {
+      const retrieveLikeResponse =  await axiosInstance.get(`/api/like/${post.id}`)
+      if(retrieveLikeResponse.status === 200) {
+        setTotalLikes(retrieveLikeResponse.data.retrievedLike.length)
+        const findIsLiked = retrieveLikeResponse.data.retrievedLike.some(i => i.authorId === user.id) //find if user clicked like to the status/post
+        setIsLiked(findIsLiked)
+      }
+    } catch(err) {
+      console.error(err)
+    } finally {
+      setIsLikeLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    retrieveLike()
+  }, [])
+
+  const handleLike = async (e) => {
+    e.stopPropagation(); // Prevents the click from reaching the parent
+    try {
+      let likeResponse
+      if(!isLiked) {
+        likeResponse = await axiosInstance.post(`/api/like/${post.id}`)
+      } else {
+        likeResponse = await axiosInstance.delete(`/api/like/${post.id}`)        
+      }
+      if(likeResponse.status === 200) {
+        retrieveLike()
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  return (
+    <div className="status-card d-flex p-3 gap-3 border" onClick={() => navigate(`/status/${post.id}`)} role='button'>
+      <Image src={post.author.profilePic} className="object-fit-cover mt-1" width='35px' height='35px' roundedCircle />
+      <div className="post-content d-flex flex-column justify-content-between gap-3">
+        <div className="post-content-body">
+          <div><b>{post.author.name}</b> <span className="text-muted">@{post.author.username}</span> · <span className="text-muted">{formatDistanceToNow(post.createdAt, {addSuffix: true})}</span></div>
+          <div>{post.content}</div>
+        </div>
+        {isLikeLoading ?
+        (
+          <div>Loading....</div>
+        ) :
+        (
+          <div className="post-content-footer">
+            <div className='d-flex gap-3 align-items-center'>
+              <div className="comment-icon-container d-flex gap-1 align-items-center">
+                <Image src={theme === 'dark' ? commentIconWhite : commentIconBlack} width={18} />
+                {post.comments.length}
+              </div>
+              <div className="like-icon-container d-flex gap-1 align-items-center">
+                <Image role='button' onClick={handleLike} src={isLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
+                {totalLikes}
+              </div>
+            </div>
+        </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default StatusCard
