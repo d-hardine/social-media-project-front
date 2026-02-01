@@ -23,7 +23,7 @@ function BottomNavigationBar() {
   )
 }
 
-function CustomBottomLink({to, children, theme, ...props}) {
+function CustomBottomLink({to, children, ...props}) {
     const resolvedPath = useResolvedPath(to) //retrieve absolute path of the page
     const isActive = useMatch({path: resolvedPath.pathname, end: true}) //end TRUE to make sure to match the absolute path, not relative
     return (

@@ -10,12 +10,10 @@ import LatestUsersCard from "../components/LatestUsersCard"
 import Spinner from 'react-bootstrap/Spinner'
 import BottomNavigationBar from "../components/BottomNavigationBar"
 import ThemeContext from "../config/ThemeContext"
-import UserContext from "../config/UserContext"
 
 function Home() {
 
   const { theme } = useContext(ThemeContext)
-  const { user } = useContext(UserContext)
 
   const [allPosts, setAllPosts] = useState()
   const [followingPosts, setFollowingPosts] = useState()
