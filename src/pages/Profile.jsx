@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import UserContext from "../config/UserContext"
 import ThemeContext from "../config/ThemeContext"
 import NavigationBar from "../components/NavigationBar"
@@ -23,6 +23,10 @@ function Profile() {
   const { user, setUser } = useContext(UserContext)
   const { theme } = useContext(ThemeContext)
 
+  //followers states
+  const [followers, setFollowers] = useState([])
+  const [following, setFollowing] = useState([])
+
   //image modal/popup states
   const [showImageModal, setShowImageModal] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
@@ -39,6 +43,22 @@ function Profile() {
   //website states
   const [showEditWebsiteModal, setShowEditWebsiteModal] = useState(false)
   const [newWebsite, setNewWebsite] = useState(user.website)
+
+  const retrieveFollowers = async () => {
+    try {
+      const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${user.id}`)
+      if(retrieveFollowersResponse.status === 200) {
+        setFollowers(retrieveFollowersResponse.data.retrievedFollowers)
+        setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(() => {
+    retrieveFollowers()
+  }, [])
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0]
@@ -121,11 +141,11 @@ function Profile() {
           <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          <Col className="d-flex gap-3 gap-lg-4">
+          <Col className="profile-container mb-3 d-sm-flex gap-3 gap-lg-4">
             <div className="profile-image-container d-flex flex-column gap-2">
-              <Image src={user.profilePic} className="object-fit-cover border-light" width='200px' height='200px' roundedCircle />
+              <Image src={user.profilePic} className="m-auto mb-1 object-fit-cover border-light" width='200px' height='200px' roundedCircle />
               <br />
-              <Button variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleShowImageModal}>Change Picture</Button>
+              <Button style={{minWidth: 200}} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleShowImageModal}>Change Picture</Button>
             </div>
             <div className="profile-info-container">
               <div className="fs-2">{user.name}</div>
@@ -139,6 +159,10 @@ function Profile() {
                 <a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a>
                 <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditWebsiteModal}/>
                 <i className="text-muted">website</i>
+              </div>
+              <div className="d-flex gap-1">
+                  <div><b>{followers.length}</b> <span className="text-muted">Followers</span></div>
+                  <div><b>{following.length}</b> <span className="text-muted">Following</span></div>
               </div>
             </div>
           </Col>

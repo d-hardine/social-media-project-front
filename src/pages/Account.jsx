@@ -15,6 +15,7 @@ import webIconWhite from '../assets/web-icon-white.svg'
 import webIconBlack from '../assets/web-icon-black.svg'
 import BottomNavigationBar from "../components/BottomNavigationBar"
 import LatestUsersCard from "../components/LatestUsersCard"
+import StatusCard from "../components/StatusCard"
 
 function Account() {
 
@@ -28,6 +29,7 @@ function Account() {
   const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])
   const [isFollowed, setIsFollowed] = useState(false)
+  const [accountPosts, setAccountPosts] = useState()
 
   const retrieveAccount = async () => {
     try {
@@ -56,9 +58,21 @@ function Account() {
     }
   }
 
+  const retrieveAccountPosts = async () => {
+    try {
+      const retrieveResponse =  await axiosInstance.get(`/api/account-posts/${params.accountId}`)
+      if(retrieveResponse.status === 200) {
+        setAccountPosts(retrieveResponse.data.accountPosts)
+      }
+    } catch(err) {
+      console.error(err)
+    }    
+  }
+
   useEffect(() => {
     retrieveAccount()
     retrieveFollowers()
+    retrieveAccountPosts()
   }, [])
 
   const addFollow = async () => {
@@ -94,32 +108,41 @@ function Account() {
             <Sidebar />
           </Col>
           {isAccountLoading ? (<Spinner animation="grow" variant="secondary" />) : (
-            <Col className="d-flex gap-3 gap-lg-4">
-              <div className="profile-image-container d-flex flex-column gap-2">
-                <Image src={account.profilePic} className="object-fit-cover border-light" width='220px' height='220px' roundedCircle />
-                <br />
-                {user.id !== params.accountId &&
-                  (isFollowed ? (
-                    <Button variant="secondary" onClick={deleteFollow}>Unfollow</Button>
-                  ) : (
-                    <Button variant={theme === 'dark' ? 'light' : 'dark'} onClick={addFollow}>Follow</Button>
-                  ))
-                }
-              </div>
-              <div className="profile-info-container">
-                <div className="fs-2">{account.name}</div>
-                <div className="text-muted mb-3">@{account.username}</div>
-                <div className="mb-3">{account.bio}</div>
-                {account.website && (
-                <div className="mb-3 d-flex align-items-center gap-2">
-                  <Image src={theme === 'dark' ? webIconWhite : webIconBlack} width={25} />
-                  <a href={account.website} target="_blank" rel="noopener noreferrer">{account.website}</a>
+            <Col>
+              <div className="profile-container mb-3 d-sm-flex gap-3 gap-lg-4">
+                <div className="profile-image-container d-flex flex-column gap-2">
+                  <Image src={account.profilePic} className="m-auto mb-1 object-fit-cover border-light" width='200px' height='200px' roundedCircle />
+                  <br />
+                  {user.id !== params.accountId &&
+                    (isFollowed ? (
+                      <Button style={{minWidth: 200}} className="mb-3 m-auto" variant="secondary" onClick={deleteFollow}>Unfollow</Button>
+                    ) : (
+                      <Button style={{minWidth: 200}} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={addFollow}>Follow</Button>
+                    ))
+                  }
                 </div>
-                )}
-                <div
-                  ><b>{followers.length}</b> <span className="text-muted">Followers</span> <b>{following.length}</b> <span className="text-muted">Following</span>
+                <div className="profile-info-container">
+                  <div className="fs-2">{account.name}</div>
+                  <div className="text-muted mb-3">@{account.username}</div>
+                  <div className="mb-3">{account.bio}</div>
+                  {account.website && (
+                  <div className="mb-3 d-flex align-items-center gap-2">
+                    <Image src={theme === 'dark' ? webIconWhite : webIconBlack} width={25} />
+                    <a href={account.website} target="_blank" rel="noopener noreferrer">{account.website}</a>
+                  </div>
+                  )}
+                  <div className="d-flex gap-1">
+                    <div><b>{followers.length}</b> <span className="text-muted">Followers</span></div>
+                    <div><b>{following.length}</b> <span className="text-muted">Following</span></div>
+                  </div>
                 </div>
               </div>
+              <div className="mb-2 fw-bold">Post History</div>
+              {accountPosts && (
+                accountPosts.map((post) => (
+                  <StatusCard post={post} key={post.id} />
+                ))
+              )}
           </Col>
           )}
           <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
