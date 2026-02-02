@@ -37,7 +37,6 @@ function Home() {
     try {
       const retrieveResponse =  await axiosInstance.get(`/api/following-posts/`)
       if(retrieveResponse.status === 200) {
-        console.log(retrieveResponse.data.followingPosts)
         setFollowingPosts(retrieveResponse.data.followingPosts)
       }
     } catch(err) {
@@ -85,9 +84,11 @@ function Home() {
                   <StatusCard post={post} key={post.id} />
                 ))
               ) : (
-                followingPosts.map((post) => (
-                  <StatusCard post={post} key={post.id} />
-                ))
+                followingPosts.length === 0 ? (<div>you don't have following</div>) : (
+                  followingPosts.map((post) => (
+                    <StatusCard post={post} key={post.id} />
+                  ))
+                )
               )}
             </Col>
           )}

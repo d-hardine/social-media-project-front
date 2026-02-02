@@ -75,6 +75,7 @@ function StatusCard({post}) {
             </Link>
              · <span title={format(post.createdAt, 'yyyy-MM-dd h:mm a')} className="text-muted">{formatDistanceToNow(post.createdAt, {addSuffix: true})}</span></div>
           <div>{post.content}</div>
+          {post.image && (<Image className='mt-2 mb-2' src={post.image} fluid rounded />)}
         </div>
         {isLikeLoading ?
         (
