@@ -19,11 +19,11 @@ function LatestUsersCard() {
 
   const retrieveLatestUsers = async () => {
     try {
-      const retrieveLatestUsersResponse =  await axiosInstance.get('/api/latest-users')
-      if(retrieveLatestUsersResponse.status === 200) {
+      const retrieveLatestUsersResponse = await axiosInstance.get('/api/latest-users')
+      if (retrieveLatestUsersResponse.status === 200) {
         setLatestUsers(retrieveLatestUsersResponse.data.latestUsers)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     } finally {
       setIsCardLoading(false)
@@ -33,7 +33,7 @@ function LatestUsersCard() {
   const retrieveFollowers = async () => {
     try {
       const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${user.id}`)
-      if(retrieveFollowersResponse.status === 200) {
+      if (retrieveFollowersResponse.status === 200) {
         setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
       }
     } catch (err) {
@@ -46,12 +46,12 @@ function LatestUsersCard() {
     retrieveFollowers()
   }, [])
 
-const addFollow = async (e, userId) => {
+  const addFollow = async (e, userId) => {
     e.preventDefault()
     e.stopPropagation()
     try {
       const addFollowResponse = await axiosInstance.post(`/api/follow/${userId}`)
-      if(addFollowResponse.status === 200) {
+      if (addFollowResponse.status === 200) {
         console.log(addFollowResponse.data)
         retrieveFollowers()
       }
@@ -65,7 +65,7 @@ const addFollow = async (e, userId) => {
     e.stopPropagation()
     try {
       const deleteFollowResponse = await axiosInstance.delete(`/api/follow/${userId}`)
-      if(deleteFollowResponse.status === 200) {
+      if (deleteFollowResponse.status === 200) {
         console.log(deleteFollowResponse.data)
         retrieveFollowers()
       }
@@ -74,14 +74,14 @@ const addFollow = async (e, userId) => {
     }
   }
 
-  if(isCardLoading) return <Spinner animation="grow" variant="secondary" />
+  if (isCardLoading) return <Spinner animation="grow" variant="secondary" />
 
   return (
     <Card>
       <Card.Header><b>Latest Users</b></Card.Header>
       <Card.Body>
         <ListGroup variant="flush">
-         {latestUsers.map(latestUser => (
+          {latestUsers.map(latestUser => (
             <ListGroup.Item key={latestUser.id} as={Link} to={`/account/${latestUser.id}`} className='d-flex gap-2 align-items-center justify-content-between' action>
               <div className="user-info-container">
                 <div className={theme === 'dark' ? 'text-light' : 'text-dark'}><b>{latestUser.name}</b></div>
@@ -94,7 +94,7 @@ const addFollow = async (e, userId) => {
               )}
             </ListGroup.Item>
           ))}
-       </ListGroup>
+        </ListGroup>
       </Card.Body>
     </Card>
   )

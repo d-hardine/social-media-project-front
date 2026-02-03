@@ -24,16 +24,16 @@ function Status() {
   const [isCommentLoading, setIsCommentLoading] = useState(true)
   const [comments, setComments] = useState(null)
   const [newComment, setNewComment] = useState('')
- 
+
   const params = useParams()
 
   const retrieveSinglePost = async () => {
     try {
-      const retrieveResponse =  await axiosInstance.get(`/api/single-post/${params.statusId}`)
-      if(retrieveResponse.status === 200) {
+      const retrieveResponse = await axiosInstance.get(`/api/single-post/${params.statusId}`)
+      if (retrieveResponse.status === 200) {
         setPost(retrieveResponse.data.singlePost)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     } finally {
       setIsStatusLoading(false)
@@ -42,11 +42,11 @@ function Status() {
 
   const retrieveComments = async () => {
     try {
-      const retrieveComments =  await axiosInstance.get(`/api/comments/${params.statusId}`)
-      if(retrieveComments.status === 200) {
+      const retrieveComments = await axiosInstance.get(`/api/comments/${params.statusId}`)
+      if (retrieveComments.status === 200) {
         setComments(retrieveComments.data.comments)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     } finally {
       setIsCommentLoading(false)
@@ -61,8 +61,8 @@ function Status() {
   const handleSubmitComment = async (e) => {
     e.preventDefault()
     try {
-      const commentResponse = await axiosInstance.post('/api/create-comment', {newComment, postId: params.statusId})
-      if(commentResponse.status === 200) {
+      const commentResponse = await axiosInstance.post('/api/create-comment', { newComment, postId: params.statusId })
+      if (commentResponse.status === 200) {
         retrieveComments()
         retrieveSinglePost()
         setNewComment('')
@@ -75,48 +75,48 @@ function Status() {
 
   return (
     <>
-    <NavigationBar />
-    <Container>
-      <Row className="pt-4">
-        <Col className="d-none d-sm-block col-2">
-          <Sidebar />
-        </Col>
-        <Col>
-          {!isStatusLoading ?
-            (
-              <StatusCard post={post}/>
-            ) :
-            (
-              <Spinner animation="grow" variant="secondary" />
-            )
-          }
-          <div className="mt-3 mb-3">Comment section</div>
-          {!isCommentLoading ?
-          (
-            <>
-            <Form onSubmit={handleSubmitComment} className="mb-3">
-                <Form.Group className="mb-3" controlId="createComment">
-                  <Form.Control style={{ resize: "none" }} as="textarea" rows={2} placeholder="Post your comment" onChange={(e) => setNewComment(e.target.value)} required />
-                </Form.Group>
-                <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Comment</Button>
-            </Form>
-            {comments.map((comment) => (
-              <CommentCard comment={comment} key={comment.id} />
-            ))}
-            </>
-          ) :
-          (
-            <Spinner animation="grow" variant="secondary" />
-          )}
-        </Col>
-        <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
+      <NavigationBar />
+      <Container>
+        <Row className="pt-4">
+          <Col className="d-none d-sm-block col-2">
+            <Sidebar />
+          </Col>
+          <Col>
+            {!isStatusLoading ?
+              (
+                <StatusCard post={post} />
+              ) :
+              (
+                <Spinner animation="grow" variant="secondary" />
+              )
+            }
+            <div className="mt-3 mb-3">Comment section</div>
+            {!isCommentLoading ?
+              (
+                <>
+                  <Form onSubmit={handleSubmitComment} className="mb-3">
+                    <Form.Group className="mb-3" controlId="createComment">
+                      <Form.Control style={{ resize: "none" }} as="textarea" rows={2} placeholder="Post your comment" onChange={(e) => setNewComment(e.target.value)} required />
+                    </Form.Group>
+                    <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Comment</Button>
+                  </Form>
+                  {comments.map((comment) => (
+                    <CommentCard comment={comment} key={comment.id} />
+                  ))}
+                </>
+              ) :
+              (
+                <Spinner animation="grow" variant="secondary" />
+              )}
+          </Col>
+          <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
             <LatestUsersCard />
-        </Col>
-      </Row>
-    </Container>
-    <BottomNavigationBar />
+          </Col>
+        </Row>
+      </Container>
+      <BottomNavigationBar />
     </>
-    )
+  )
 }
 
 export default Status

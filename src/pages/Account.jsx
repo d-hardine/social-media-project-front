@@ -33,11 +33,11 @@ function Account() {
 
   const retrieveAccount = async () => {
     try {
-      const retrieveAccountResponse =  await axiosInstance.get(`/api/account/${params.accountId}`)
-      if(retrieveAccountResponse.status === 200) {
+      const retrieveAccountResponse = await axiosInstance.get(`/api/account/${params.accountId}`)
+      if (retrieveAccountResponse.status === 200) {
         setAccount(retrieveAccountResponse.data.retrievedAccount)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     } finally {
       setIsAccountLoading(false)
@@ -47,7 +47,7 @@ function Account() {
   const retrieveFollowers = async () => {
     try {
       const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${params.accountId}`)
-      if(retrieveFollowersResponse.status === 200) {
+      if (retrieveFollowersResponse.status === 200) {
         setFollowers(retrieveFollowersResponse.data.retrievedFollowers)
         setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
         const findIsFollowed = retrieveFollowersResponse.data.retrievedFollowers.some(followed => followed.followingId === user.id) //find if user is followed the clicked account
@@ -60,13 +60,13 @@ function Account() {
 
   const retrieveAccountPosts = async () => {
     try {
-      const retrieveResponse =  await axiosInstance.get(`/api/account-posts/${params.accountId}`)
-      if(retrieveResponse.status === 200) {
+      const retrieveResponse = await axiosInstance.get(`/api/account-posts/${params.accountId}`)
+      if (retrieveResponse.status === 200) {
         setAccountPosts(retrieveResponse.data.accountPosts)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
-    }    
+    }
   }
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function Account() {
   const addFollow = async () => {
     try {
       const addFollowResponse = await axiosInstance.post(`/api/follow/${params.accountId}`)
-      if(addFollowResponse.status === 200) {
+      if (addFollowResponse.status === 200) {
         console.log(addFollowResponse.data)
         retrieveFollowers()
       }
@@ -90,7 +90,7 @@ function Account() {
   const deleteFollow = async () => {
     try {
       const deleteFollowResponse = await axiosInstance.delete(`/api/follow/${params.accountId}`)
-      if(deleteFollowResponse.status === 200) {
+      if (deleteFollowResponse.status === 200) {
         console.log(deleteFollowResponse.data)
         retrieveFollowers()
       }
@@ -115,9 +115,9 @@ function Account() {
                   <br />
                   {user.id !== params.accountId &&
                     (isFollowed ? (
-                      <Button style={{minWidth: 200}} className="mb-3 m-auto" variant="secondary" onClick={deleteFollow}>Unfollow</Button>
+                      <Button style={{ minWidth: 200 }} className="mb-3 m-auto" variant="secondary" onClick={deleteFollow}>Unfollow</Button>
                     ) : (
-                      <Button style={{minWidth: 200}} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={addFollow}>Follow</Button>
+                      <Button style={{ minWidth: 200 }} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={addFollow}>Follow</Button>
                     ))
                   }
                 </div>
@@ -126,10 +126,10 @@ function Account() {
                   <div className="text-muted mb-3">@{account.username}</div>
                   <div className="mb-3">{account.bio}</div>
                   {account.website && (
-                  <div className="mb-3 d-flex align-items-center gap-2">
-                    <Image src={theme === 'dark' ? webIconWhite : webIconBlack} width={25} />
-                    <a href={account.website} target="_blank" rel="noopener noreferrer">{account.website}</a>
-                  </div>
+                    <div className="mb-3 d-flex align-items-center gap-2">
+                      <Image src={theme === 'dark' ? webIconWhite : webIconBlack} width={25} />
+                      <a href={account.website} target="_blank" rel="noopener noreferrer">{account.website}</a>
+                    </div>
                   )}
                   <div className="d-flex gap-1">
                     <div><b>{followers.length}</b> <span className="text-muted">Followers</span></div>
@@ -143,7 +143,7 @@ function Account() {
                   <StatusCard post={post} key={post.id} />
                 ))
               )}
-          </Col>
+            </Col>
           )}
           <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
             <LatestUsersCard />

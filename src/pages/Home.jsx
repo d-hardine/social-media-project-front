@@ -22,11 +22,11 @@ function Home() {
 
   const retrieveAllPosts = async () => {
     try {
-      const retrieveResponse =  await axiosInstance.get('/api/all-posts')
-      if(retrieveResponse.status === 200) {
+      const retrieveResponse = await axiosInstance.get('/api/all-posts')
+      if (retrieveResponse.status === 200) {
         setAllPosts(retrieveResponse.data.allPosts)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     } finally {
       setIsLoading(false)
@@ -35,11 +35,11 @@ function Home() {
 
   const retrieveFollowingPosts = async () => {
     try {
-      const retrieveResponse =  await axiosInstance.get(`/api/following-posts/`)
-      if(retrieveResponse.status === 200) {
+      const retrieveResponse = await axiosInstance.get(`/api/following-posts/`)
+      if (retrieveResponse.status === 200) {
         setFollowingPosts(retrieveResponse.data.followingPosts)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     }
   }
@@ -68,8 +68,7 @@ function Home() {
           <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          {isLoading ? (<Spinner animation="grow" variant="secondary" />) :
-          (
+          {isLoading ? (<Spinner animation="grow" variant="secondary" />) : (
             <Col>
               <div className="feed-button-container d-flex gap-3 justify-content-center mb-2">
                 <div className={isLatest ? ['border-bottom', 'border-5', theme === 'dark' ? 'border-light' : 'border-dark'].join(' ') : ''} onClick={latestSwitch}>

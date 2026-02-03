@@ -12,7 +12,7 @@ import UserContext from '../config/UserContext'
 import ThemeContext from "../config/ThemeContext"
 import axiosInstance from '../config/axiosInstance'
 
-function StatusCard({post}) {
+function StatusCard({ post }) {
 
   const navigate = useNavigate()
 
@@ -25,13 +25,13 @@ function StatusCard({post}) {
 
   const retrieveLike = async () => {
     try {
-      const retrieveLikeResponse =  await axiosInstance.get(`/api/like/${post.id}`)
-      if(retrieveLikeResponse.status === 200) {
+      const retrieveLikeResponse = await axiosInstance.get(`/api/like/${post.id}`)
+      if (retrieveLikeResponse.status === 200) {
         setTotalLikes(retrieveLikeResponse.data.retrievedLike.length)
         const findIsLiked = retrieveLikeResponse.data.retrievedLike.some(liked => liked.authorId === user.id) //find if user clicked like to the status/post
         setIsLiked(findIsLiked)
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     } finally {
       setIsLikeLoading(false)
@@ -46,12 +46,12 @@ function StatusCard({post}) {
     e.stopPropagation() // Prevents the click from reaching the parent
     try {
       let likeResponse
-      if(!isLiked) {
+      if (!isLiked) {
         likeResponse = await axiosInstance.post(`/api/like/${post.id}`)
       } else {
-        likeResponse = await axiosInstance.delete(`/api/like/${post.id}`)        
+        likeResponse = await axiosInstance.delete(`/api/like/${post.id}`)
       }
-      if(likeResponse.status === 200) {
+      if (likeResponse.status === 200) {
         retrieveLike()
       }
     } catch (err) {
@@ -73,28 +73,28 @@ function StatusCard({post}) {
               <span className='fw-bold hover-text-underline'>{post.author.name}</span>
               <span className="text-muted"> @{post.author.username} </span>
             </Link>
-             · <span title={format(post.createdAt, 'yyyy-MM-dd h:mm a')} className="text-muted">{formatDistanceToNow(post.createdAt, {addSuffix: true})}</span></div>
+            · <span title={format(post.createdAt, 'yyyy-MM-dd h:mm a')} className="text-muted">{formatDistanceToNow(post.createdAt, { addSuffix: true })}</span></div>
           <div>{post.content}</div>
           {post.image && (<Image className='mt-2 mb-2' src={post.image} fluid rounded />)}
         </div>
         {isLikeLoading ?
-        (
-          <div>Loading....</div>
-        ) :
-        (
-          <div className="post-content-footer">
-            <div className='d-flex gap-3 align-items-center'>
-              <div className="comment-icon-container d-flex gap-1 align-items-center">
-                <Image src={theme === 'dark' ? commentIconWhite : commentIconBlack} width={18} />
-                {post.comments.length}
-              </div>
-              <div className="like-icon-container d-flex gap-1 align-items-center">
-                <Image role='button' onClick={handleLike} src={isLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
-                {totalLikes}
+          (
+            <div>Loading....</div>
+          ) :
+          (
+            <div className="post-content-footer">
+              <div className='d-flex gap-3 align-items-center'>
+                <div className="comment-icon-container d-flex gap-1 align-items-center">
+                  <Image src={theme === 'dark' ? commentIconWhite : commentIconBlack} width={18} />
+                  {post.comments.length}
+                </div>
+                <div className="like-icon-container d-flex gap-1 align-items-center">
+                  <Image role='button' onClick={handleLike} src={isLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
+                  {totalLikes}
+                </div>
               </div>
             </div>
-        </div>
-        )}
+          )}
       </div>
     </div>
   )

@@ -44,11 +44,11 @@ function Post() {
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'] //Client-side validation: Check MIME type
 
     if (files && files.length > 0) {
-      if(!allowedTypes.includes(files[0].type)) { //if chosen file isn't an image
+      if (!allowedTypes.includes(files[0].type)) { //if chosen file isn't an image
         setShowAlert(true)
         setAlertMessage('Only image files are allowed!')
       }
-      else if(files[0].size > 1048576) {
+      else if (files[0].size > 1048576) {
         setShowAlert(true)
         setAlertMessage('Image size must not exceed 1MB!')
       } else {
@@ -65,7 +65,7 @@ function Post() {
     formData.append("image", newImage)
     formData.append("newPost", post)
     const postResponse = await axiosInstance.post('/api/create-post', formData)
-    if(postResponse.status === 201)
+    if (postResponse.status === 201)
       navigate('/home')
   }
 
@@ -97,14 +97,14 @@ function Post() {
 
                 {/* The actual file input, which is hidden */}
                 <Form.Control type="file" ref={fileInputRef} onChange={handleChange} /*Hide the input visually but keep it accessible */ style={{ display: 'none' }} />
-                {newImage && (<Button className="ms-2" variant="secondary" onClick={() => {setPreview(null); setNewImage(null)}}>Clear Image</Button>)}
+                {newImage && (<Button className="ms-2" variant="secondary" onClick={() => { setPreview(null); setNewImage(null) }}>Clear Image</Button>)}
                 <Button className="ms-2" variant={theme === 'dark' ? 'light' : 'dark'} disabled={isLoading} type="submit">
                   {!isLoading ? "Post" : <Spinner animation="grow" size="sm" variant="secondary" />}
                 </Button>
               </Form.Group>
             </Form>
             <Alert show={showAlert} variant="danger" onClose={() => setShowAlert(false)} dismissible>{alertMessage}</Alert>
-            
+
           </Col>
           <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
             <LatestUsersCard />

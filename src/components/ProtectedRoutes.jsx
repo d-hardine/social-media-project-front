@@ -5,7 +5,7 @@ import axiosInstance from "../config/axiosInstance"
 import logoutFunction from "../config/logoutFunction"
 import UserContext from "../config/UserContext"
 
-function ProtectedRoutes({ isLoading, setIsLoading}) {
+function ProtectedRoutes({ isLoading, setIsLoading }) {
 
     const location = useLocation()
     const navigate = useNavigate() //THIS IS ESSENTIAL FOR LOGOUT FUNCTION
@@ -14,19 +14,19 @@ function ProtectedRoutes({ isLoading, setIsLoading}) {
 
     useEffect(() => {
         const checkAuth = async () => {
-        try {
-            const response = await axiosInstance.get('/api/auth')
-            if(response.status === 201) {
-              setUser(response.data)
+            try {
+                const response = await axiosInstance.get('/api/auth')
+                if (response.status === 201) {
+                    setUser(response.data)
+                }
+            } catch (err) {
+                logoutFunction(setUser, navigate)
+                console.error(err)
+            } finally {
+                setIsLoading(false)
             }
-        } catch (err) {
-            logoutFunction(setUser, navigate)
-            console.error(err)
-        } finally {
-            setIsLoading(false)
         }
-    }
-    checkAuth()
+        checkAuth()
     }, [location.pathname])
 
     if (isLoading) return <Spinner animation="grow" variant="secondary" />

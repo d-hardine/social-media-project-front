@@ -25,7 +25,7 @@ function NavigationBar() {
   return (
     <Navbar expand="md" className={theme === 'light' ? "navbar-background-color-light" : "navbar-background-color-dark"} >
       <Container>
-        <Navbar.Brand as={Link} to ="/home">Hardine Book</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/home">Hardine Book</Navbar.Brand>
         <Navbar.Toggle aria-controls="account-navbar-nav" />
         <Navbar.Collapse id="account-navbar-nav">
           <Nav className="ms-auto">  {/* Use ms-auto to push items to the end */}
@@ -36,7 +36,7 @@ function NavigationBar() {
                 </Form>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={() => logoutFunction(setUser,navigate)}>LOG OUT</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => logoutFunction(setUser, navigate)}>LOG OUT</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

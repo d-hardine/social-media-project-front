@@ -47,7 +47,7 @@ function Profile() {
   const retrieveFollowers = async () => {
     try {
       const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${user.id}`)
-      if(retrieveFollowersResponse.status === 200) {
+      if (retrieveFollowersResponse.status === 200) {
         setFollowers(retrieveFollowersResponse.data.retrievedFollowers)
         setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
       }
@@ -63,12 +63,12 @@ function Profile() {
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0]
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'] //Client-side validation: Check MIME type
-    if(!allowedTypes.includes(selectedImage.type)) { //if chosen file isn't an image
+    if (!allowedTypes.includes(selectedImage.type)) { //if chosen file isn't an image
       setShowAlert(true)
       setAlertMessage('Only image files are allowed!')
       setNewImage(null)
     }
-    else if(selectedImage.size > 1048576) {
+    else if (selectedImage.size > 1048576) {
       setShowAlert(true)
       setAlertMessage('Image size must not exceed 1MB!')
       setNewImage(null)
@@ -82,7 +82,7 @@ function Profile() {
     e.preventDefault()
     setLoadingSpinner(true)
     setDisableSubmit(true)
-    if(!newImage) {
+    if (!newImage) {
       setShowAlert(true)
       setLoadingSpinner(false)
     } else {
@@ -145,24 +145,24 @@ function Profile() {
             <div className="profile-image-container d-flex flex-column gap-2">
               <Image src={user.profilePic} className="m-auto mb-1 object-fit-cover border-light" width='200px' height='200px' roundedCircle />
               <br />
-              <Button style={{minWidth: 200}} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleShowImageModal}>Change Picture</Button>
+              <Button style={{ minWidth: 200 }} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleShowImageModal}>Change Picture</Button>
             </div>
             <div className="profile-info-container">
               <div className="fs-2">{user.name}</div>
               <div className="text-muted mb-3">@{user.username}</div>
               <div className="mb-3">
                 {user.bio}
-                <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditBioModal}/>
+                <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditBioModal} />
                 <i className="text-muted">bio</i>
               </div>
               <div className="mb-3">
                 <a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a>
-                <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditWebsiteModal}/>
+                <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditWebsiteModal} />
                 <i className="text-muted">website</i>
               </div>
               <div className="d-flex gap-1">
-                  <div><b>{followers.length}</b> <span className="text-muted">Followers</span></div>
-                  <div><b>{following.length}</b> <span className="text-muted">Following</span></div>
+                <div><b>{followers.length}</b> <span className="text-muted">Followers</span></div>
+                <div><b>{following.length}</b> <span className="text-muted">Following</span></div>
               </div>
             </div>
           </Col>
@@ -180,10 +180,10 @@ function Profile() {
             </Modal.Header>
             <Modal.Body className="d-flex align-items-center flex-column gap-3">
 
-              <Image src={preview} className="object-fit-cover" width='200px' height='200px' roundedCircle/>
+              <Image src={preview} className="object-fit-cover" width='200px' height='200px' roundedCircle />
               <Form.Group controlId="formFile">
                 <Form.Label>Pick new profile picture file (Picture size must not exceed 1MB)</Form.Label>
-                <Form.Control type="file" name="new-profile-picture" onChange={handleImageChange} required/>
+                <Form.Control type="file" name="new-profile-picture" onChange={handleImageChange} required />
                 <Alert show={showAlert} variant="danger">{alertMessage}</Alert>
               </Form.Group>
 
@@ -206,7 +206,7 @@ function Profile() {
             <Modal.Body>
 
               <Form.Group className="mb-3" controlId="bio">
-                <Form.Control style={{ resize: "none" }} as="textarea" rows={4} defaultValue={newBio} onChange={(e) => setNewBio(e.target.value)} required/>
+                <Form.Control style={{ resize: "none" }} as="textarea" rows={4} defaultValue={newBio} onChange={(e) => setNewBio(e.target.value)} required />
               </Form.Group>
 
             </Modal.Body>
@@ -226,7 +226,7 @@ function Profile() {
             <Modal.Body>
 
               <Form.Group className="mb-3" controlId="website">
-                <Form.Control type="text" defaultValue={newWebsite} onChange={(e) => setNewWebsite(e.target.value)} required/>
+                <Form.Control type="text" defaultValue={newWebsite} onChange={(e) => setNewWebsite(e.target.value)} required />
               </Form.Group>
 
             </Modal.Body>
