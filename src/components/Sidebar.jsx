@@ -27,9 +27,9 @@ const Sidebar = () => {
                 <Image className="m-1" src={theme === 'dark' ? profileIconWhite : profileIconBlack} width={'20px'} title="profile" />
                 <div className="d-none d-lg-block">Profile</div>
             </CustomLinkBootStrap>
-            <CustomLinkBootStrap to="/message" action>
+            <CustomLinkBootStrap to="/chat" action>
                 <Image className="m-1" src={theme === 'dark' ? emailIconWhite : emailIconBlack} width={'20px'} title="message" />
-                <div className="d-none d-lg-block">Message</div>
+                <div className="d-none d-lg-block">Chat</div>
             </CustomLinkBootStrap>
             <CustomLinkBootStrap to="/post" action>
                 <Image className="m-1" src={theme === 'dark' ? postIconWhite : postIconBlack} width={'20px'} title="post" />

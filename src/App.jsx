@@ -10,10 +10,11 @@ import axiosInstance from './config/axiosInstance'
 import Profile from './pages/Profile'
 import UserContext from './config/UserContext'
 import ThemeContext from './config/ThemeContext'
-import Message from './pages/Message'
+import Chat from './pages/Chat'
 import Post from './pages/Post'
 import Status from './pages/Status'
 import Account from './pages/Account'
+import PrivateChat from './pages/PrivateChat'
 
 function App() {
 
@@ -78,7 +79,8 @@ function App() {
               <Route element={<ProtectedRoutes isLoading={isLoading} setIsLoading={setIsLoading} />}>
                 <Route path='/home' element={<Home />}/>
                 <Route path='/profile' element={<Profile />}/>
-                <Route path='/message' element={<Message />}/>
+                <Route path='/chat' element={<Chat />}/>
+                <Route path='/chat/:conversationId' element={<PrivateChat />}/>
                 <Route path='/post' element={<Post />}/>
                 <Route path='/status/:statusId' element={<Status />}/>
                 <Route path='/account/:accountId'element={<Account />}/>

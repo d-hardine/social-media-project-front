@@ -4,6 +4,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import axiosInstance from "../config/axiosInstance"
 import logoutFunction from "../config/logoutFunction"
 import UserContext from "../config/UserContext"
+import socket from '../socket.js'
 
 function ProtectedRoutes({ isLoading, setIsLoading }) {
 
@@ -18,6 +19,7 @@ function ProtectedRoutes({ isLoading, setIsLoading }) {
                 const response = await axiosInstance.get('/api/auth')
                 if (response.status === 201) {
                     setUser(response.data)
+                    socket.connect()
                 }
             } catch (err) {
                 logoutFunction(setUser, navigate)

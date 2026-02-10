@@ -13,6 +13,7 @@ import { useContext, useEffect, useState } from "react"
 import Spinner from 'react-bootstrap/Spinner'
 import webIconWhite from '../assets/web-icon-white.svg'
 import webIconBlack from '../assets/web-icon-black.svg'
+import messageIconWhite from '../assets/email-icon-white.svg'
 import BottomNavigationBar from "../components/BottomNavigationBar"
 import LatestUsersCard from "../components/LatestUsersCard"
 import StatusCard from "../components/StatusCard"
@@ -79,7 +80,6 @@ function Account() {
     try {
       const addFollowResponse = await axiosInstance.post(`/api/follow/${params.accountId}`)
       if (addFollowResponse.status === 200) {
-        console.log(addFollowResponse.data)
         retrieveFollowers()
       }
     } catch (err) {
@@ -91,13 +91,25 @@ function Account() {
     try {
       const deleteFollowResponse = await axiosInstance.delete(`/api/follow/${params.accountId}`)
       if (deleteFollowResponse.status === 200) {
-        console.log(deleteFollowResponse.data)
         retrieveFollowers()
       }
     } catch (err) {
       console.log(err)
     }
   }
+
+  const handleChat = async () => {
+    try {
+      const chatResponse = await axiosInstance.post('/api/chat', {accountId: params.accountId})
+      if (chatResponse.status === 200) {
+        console.log(chatResponse.data)
+      }
+    } catch (err) {
+
+    }
+  }
+
+  if (isAccountLoading) return <div>loading...</div>
 
   return (
     <>
@@ -115,9 +127,15 @@ function Account() {
                   <br />
                   {user.id !== params.accountId &&
                     (isFollowed ? (
-                      <Button style={{ minWidth: 200 }} className="mb-3 m-auto" variant="secondary" onClick={deleteFollow}>Unfollow</Button>
+                      <div className="d-flex gap-2 justify-content-center">
+                        <Button style={{minWidth: 130}} variant="secondary" onClick={deleteFollow}>Unfollow</Button>
+                        <Button onClick={handleChat} variant="secondary"><Image src={messageIconWhite} title="send message" width={20}/></Button>
+                      </div>
                     ) : (
-                      <Button style={{ minWidth: 200 }} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={addFollow}>Follow</Button>
+                      <div className="d-flex gap-2 justify-content-center">
+                        <Button style={{minWidth: 130}} variant={theme === 'dark' ? 'light' : 'dark'} onClick={addFollow}>Follow</Button>
+                        <Button onClick={handleChat} variant="secondary"><Image src={messageIconWhite} title="send message" width={20}/></Button>
+                      </div>
                     ))
                   }
                 </div>

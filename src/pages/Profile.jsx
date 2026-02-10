@@ -36,13 +36,17 @@ function Profile() {
   const [loadingSpinner, setLoadingSpinner] = useState(false)
   const [disableSubmit, setDisableSubmit] = useState(false)
 
-  //bio states
+  //edit bio states
   const [showEditBioModal, setShowEditBioModal] = useState(false)
   const [newBio, setNewBio] = useState(user.bio)
 
-  //website states
+  //edit website states
   const [showEditWebsiteModal, setShowEditWebsiteModal] = useState(false)
   const [newWebsite, setNewWebsite] = useState(user.website)
+
+  //edit displayed name states
+  const [showEditDisplayNameModal, setShowEditDisplayNameModal] = useState(false)
+  const [newDisplayName, setNewDisplayName] = useState(user.name)
 
   const retrieveFollowers = async () => {
     try {
@@ -111,6 +115,13 @@ function Profile() {
     setShowEditWebsiteModal(false)
   }
 
+  const handleSubmitUpdateDisplayName = async (e) => {
+    e.preventDefault()
+    const updateWebsiteResponse = await axiosInstance.put('/api/update-display-name', { newDisplayName })
+    setUser(updateWebsiteResponse.data.updatedUser)
+    setShowEditDisplayNameModal(false)
+  }
+
   //open and close profile picture modal/popup
   const handleCloseImageModal = () => {
     setShowImageModal(false)
@@ -133,6 +144,13 @@ function Profile() {
   }
   const handleShowEditWebsiteModal = () => setShowEditWebsiteModal(true)
 
+  //open and close edit website modal/popup
+  const handleCloseEditDisplayedNameModal = () => {
+    setShowEditDisplayNameModal(false)
+    setNewDisplayName(user.name)
+  }
+  const handleShowEditDisplayedNameModal = () => setShowEditDisplayNameModal(true)
+
   return (
     <>
       <NavigationBar />
@@ -148,7 +166,13 @@ function Profile() {
               <Button style={{ minWidth: 200 }} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleShowImageModal}>Change Picture</Button>
             </div>
             <div className="profile-info-container">
-              <div className="fs-2">{user.name}</div>
+              <div className="d-flex align-items-center">
+                <span className="fs-2">{user.name}</span>
+                <span>
+                  <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditDisplayedNameModal} />
+                  <i className="text-muted">rename</i>
+                </span>
+              </div>
               <div className="text-muted mb-3">@{user.username}</div>
               <div className="mb-3">
                 {user.bio}
@@ -233,6 +257,26 @@ function Profile() {
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseEditWebsiteModal}>Close</Button>
               <Button variant="primary" type="submit">Edit Website</Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
+
+        {/*Modal popup for rename displayed name */}
+        <Modal show={showEditDisplayNameModal} onHide={handleCloseEditDisplayedNameModal}>
+          <Form onSubmit={handleSubmitUpdateDisplayName}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Website</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+
+              <Form.Group className="mb-3" controlId="rename">
+                <Form.Control type="text" defaultValue={newDisplayName} onChange={(e) => setNewDisplayName(e.target.value)} required />
+              </Form.Group>
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEditDisplayedNameModal}>Close</Button>
+              <Button variant="primary" type="submit">Rename</Button>
             </Modal.Footer>
           </Form>
         </Modal>

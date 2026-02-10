@@ -15,7 +15,7 @@ function BottomNavigationBar() {
         <Nav className={"m-auto gap-2"}>
           <CustomBottomLink to="/home"><span className={theme === 'dark' ? 'text-light' : 'text-dark'}>Home</span></CustomBottomLink>
           <CustomBottomLink to="/profile"><span className={theme === 'dark' ? 'text-light' : 'text-dark'}>Profile</span></CustomBottomLink>
-          <CustomBottomLink to="/message"><span className={theme === 'dark' ? 'text-light' : 'text-dark'}>Message</span></CustomBottomLink>
+          <CustomBottomLink to="/chat"><span className={theme === 'dark' ? 'text-light' : 'text-dark'}>Chat</span></CustomBottomLink>
           <CustomBottomLink to="/post"><span className={theme === 'dark' ? 'text-light' : 'text-dark'}>Post</span></CustomBottomLink>
         </Nav>
       </Container>
