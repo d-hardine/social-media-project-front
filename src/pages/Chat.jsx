@@ -57,6 +57,7 @@ function Chat() {
                   <Image src={conversation.members[0].user.profilePic} className="object-fit-cover mt-1" width='40px' height='40px' roundedCircle />
                   <div className="chat-content">
                     <div><b>{conversation.members[0].user.name}</b> <span className="text-muted">@{conversation.members[0].user.username}</span></div>
+                    <div>{conversation.lastMessage}</div>
                   </div>
                 </Link>
               ))

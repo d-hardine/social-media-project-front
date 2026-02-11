@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button"
 import axiosInstance from "../config/axiosInstance"
 import UserContext from "../config/UserContext"
 import ThemeContext from "../config/ThemeContext"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import Spinner from 'react-bootstrap/Spinner'
 import webIconWhite from '../assets/web-icon-white.svg'
@@ -24,6 +24,7 @@ function Account() {
   const { user } = useContext(UserContext)
 
   const params = useParams()
+  const navigate = useNavigate()
 
   const [account, setAccount] = useState(null)
   const [isAccountLoading, setIsAccountLoading] = useState(true)
@@ -102,7 +103,8 @@ function Account() {
     try {
       const chatResponse = await axiosInstance.post('/api/chat', {accountId: params.accountId})
       if (chatResponse.status === 200) {
-        console.log(chatResponse.data)
+        console.log(chatResponse.data.conversationId.id)
+        navigate(`/chat/${chatResponse.data.conversationId.id}`)
       }
     } catch (err) {
 

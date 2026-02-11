@@ -6,6 +6,7 @@ import Image from "react-bootstrap/Image"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Card from "react-bootstrap/Card"
+import { format } from "date-fns"
 import Sidebar from "../components/Sidebar"
 import NavigationBar from "../components/NavigationBar"
 import BottomNavigationBar from "../components/BottomNavigationBar"
@@ -64,7 +65,6 @@ function PrivateChat() {
 
   useEffect(() => {
     socket.on('new_message', (data) => {
-      console.log(data)
       setMessages(data.newMessages)
     })
   }, [socket])
@@ -94,18 +94,23 @@ function PrivateChat() {
           </Col>
           <Col>
             <Row>
-            <h2 className="d-flex gap-2 mb-4">
+            <h3 className="d-flex gap-2 mb-4">
               <Image src={members[0].user.profilePic} className="object-fit-cover mt-1" width='35px' height='35px' roundedCircle />
               {members[0].user.name}
-            </h2>
-            <div className="messages-container mb-3" style={{ maxHeight: '670px', overflowY: 'auto' }}>
+            </h3>
+            <div className="messages-container mb-3" style={{ height: '70vh', overflowY: 'auto' }}>
               {messages.map(message => (
-                <div key={message.id} className={`d-flex mb-2  ${message.senderId !== user.id ? 'justify-content-start' : 'justify-content-end'}`}>
+                <div className='chat-container' key={message.id}>
+                <div className={`d-flex ${message.senderId !== user.id ? 'justify-content-start' : 'justify-content-end'}`}>
                   <Card className={`chat-bubble ${message.senderId !== user.id ? 'bg-light text-dark' : 'bg-success text-white'}`}>
                     <Card.Body className="p-2">
                       {message.content}
                     </Card.Body>
                   </Card>
+                </div>
+                <div className={`d-flex mb-3 text-muted ${message.senderId !== user.id ? 'justify-content-start' : 'justify-content-end'}`} title={format(message.createdAt, 'yyyy-MM-dd h:mm a')}>
+                  {format(message.createdAt, 'h:mm a')}
+                </div>
                 </div>
               ))}
               {/* Invisible div to scroll to */}
@@ -116,7 +121,7 @@ function PrivateChat() {
               <Row>
               <Col className='col-10 col-lg-11'>
                 <Form.Group className="mb-3" controlId="new-message-form">
-                  <Form.Control autoComplete='off' type="text" onChange={(e) => setNewMessage(e.target.value)} required />
+                  <Form.Control autoComplete='off' type="text" placeholder='type a message here...' onChange={(e) => setNewMessage(e.target.value)} required />
                 </Form.Group>
               </Col>
               <Col className='col-1'>
