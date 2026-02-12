@@ -24,6 +24,8 @@ function Login() {
   const { user, setUser } = useContext(UserContext)
   const { theme } = useContext(ThemeContext)
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
+
   const handleLogin = async (e) => {
     e.preventDefault()
     const loginUser = {
@@ -54,12 +56,12 @@ function Login() {
   }
 
   const handleGithubLogin = async () => {
-    window.open('http://localhost:3000/api/auth/github', '_self')
+    window.open(`${API_BASE_URL}/api/auth/github`, '_self')
   }
 
   const handleGoogleLogin = async () => {
     console.log('logging in via google...')
-    window.open('http://localhost:3000/api/auth/google', '_self')
+    window.open(`${API_BASE_URL}/api/auth/google`, '_self')
   }
 
   if (user) { return (<Navigate to="/home" />) }
