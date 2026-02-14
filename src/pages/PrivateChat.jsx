@@ -84,7 +84,6 @@ function PrivateChat() {
     socket.on('new_message', (data) => {
       const retrievedMessages = data.newMessages
       setGroupedMessages(groupMessagesByDate(retrievedMessages))
-      setIsSendingMessage(false)
     })
   }, [socket])
 
@@ -93,7 +92,6 @@ function PrivateChat() {
   const handleNewMessage = (e) => {
     e.preventDefault()
     if(newMessage !== "") {
-      setIsSendingMessage(true)
       setNewMessage("")
       e.target.reset()
       socket.emit('send_message', {
@@ -152,7 +150,7 @@ function PrivateChat() {
                       </Form.Group>
                     </Col>
                     <Col className='col-1'>
-                      <Button type="submit" disabled={isSendingMessage}>Send</Button>
+                      <Button type="submit">Send</Button>
                     </Col>
                   </Row>
                 </Form>
