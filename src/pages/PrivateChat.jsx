@@ -175,6 +175,7 @@ function PrivateChat() {
             ) : (<Spinner animation="grow" variant="secondary" />)}
           </Col>
         </Row>
+        <Button onClick={() => console.log(messagesContainerRef.current)}>console log</Button>
       </Container>
       <BottomNavigationBar />
     </>
