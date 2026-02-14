@@ -11,7 +11,7 @@ import Sidebar from "../components/Sidebar"
 import NavigationBar from "../components/NavigationBar"
 import BottomNavigationBar from "../components/BottomNavigationBar"
 import { useParams } from "react-router-dom"
-import { useState, useEffect, useContext, useOptimistic, useRef, startTransition } from "react"
+import { useState, useEffect, useContext, useRef } from "react"
 import UserContext from "../config/UserContext"
 import axiosInstance from "../config/axiosInstance"
 import socket from "../config/socket"
@@ -28,7 +28,8 @@ function PrivateChat() {
 
   const [members, setMembers] = useState()
   const [groupedMessages, setGroupedMessages] = useState()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isMembersLoading, setIsMembersLoading] = useState(true)
+  const [isMessagesLoading, setIsMessagesLoading] = useState(true)
   const [newMessage, setNewMessage] = useState('')
 
 
@@ -41,6 +42,8 @@ function PrivateChat() {
       }
     } catch (err) {
       console.error(err)
+    } finally {
+      setIsMessagesLoading(false)
     }
   }
 
@@ -53,7 +56,7 @@ function PrivateChat() {
     } catch (err) {
       console.error(err)
     } finally {
-      setIsLoading(false)
+      setIsMembersLoading(false)
     }
   }
 
@@ -111,7 +114,7 @@ function PrivateChat() {
             <Sidebar />
           </Col>
           <Col>
-            {!isLoading ? (
+            {!isMembersLoading && !isMessagesLoading ? (
               <>
                 <Row>
                   <h3 className="d-flex gap-2 mb-4">
