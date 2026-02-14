@@ -90,7 +90,7 @@ function PrivateChat() {
     })
   }, [socket])
 
-  useEffect(() => scrollToBottom, [groupedMessages])
+  useEffect(() => scrollToBottom, [optimisticGroupedMessages])
 
   const handleNewMessage = (e) => {
     startTransition(() => {
