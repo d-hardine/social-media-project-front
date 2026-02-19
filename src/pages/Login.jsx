@@ -69,12 +69,12 @@ function Login() {
 
   const handleGithubLogin = async () => {
     setIsLoading(true)
-    window.open(`${API_BASE_URL}/api/auth/github`, '_self')
+    window.open(`${API_BASE_URL}/auth/github`, '_self')
   }
 
   const handleGoogleLogin = async () => {
     setIsLoading(true)
-    window.open(`${API_BASE_URL}/api/auth/google`, '_self')
+    window.open(`${API_BASE_URL}/auth/google`, '_self')
   }
 
   if (user) { return (<Navigate to="/home" />) }
