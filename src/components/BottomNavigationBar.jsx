@@ -10,7 +10,7 @@ function BottomNavigationBar() {
   const { theme } = useContext(ThemeContext)
 
   return (
-    <Navbar bg={theme === 'dark' ? 'dark' : 'light'} fixed='bottom' className={'d-sm-none border-top'}>
+    <Navbar bg={theme === 'dark' ? 'dark' : 'light'} fixed='bottom' className={'d-sm-none border-top border-bottom'}>
       <Container>
         <Nav className={"m-auto gap-2"}>
           <CustomBottomLink to="/home"><span className={theme === 'dark' ? 'text-light' : 'text-dark'}>Home</span></CustomBottomLink>

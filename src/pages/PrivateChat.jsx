@@ -17,6 +17,7 @@ import axiosInstance from "../config/axiosInstance"
 import socket from "../config/socket"
 import Spinner from "react-bootstrap/Spinner"
 import DateDivider from '../components/DateDivider'
+import sendIcon from '../assets/send-icon.svg'
 
 function PrivateChat() {
 
@@ -164,17 +165,14 @@ function PrivateChat() {
                     <div ref={messagesEndRef} />
                   </div>
                 </Row>
-                <Form onSubmit={handleNewMessage}>
-                  <Row>
-                    <Col className='col-10 col-lg-11'>
-                      <Form.Group className="mb-3" controlId="new-message-form">
+                <Form onSubmit={handleNewMessage} className='d-flex align-items-center justify-content-between mb-3 gap-1'>
+
+                      <Form.Group style={{width: '90%'}} controlId="new-message-form">
                         <Form.Control autoComplete='off' type="text" placeholder='type a message here...' onChange={(e) => setNewMessage(e.target.value)} required />
                       </Form.Group>
-                    </Col>
-                    <Col className='col-1'>
-                      <Button type="submit">Send</Button>
-                    </Col>
-                  </Row>
+                      <Button type="submit">
+                        <Image className="mx-2" src={sendIcon} width={20} />
+                      </Button>
                 </Form>
               </>
             ) : (<Spinner animation="grow" variant="secondary" />)}
