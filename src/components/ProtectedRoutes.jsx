@@ -32,7 +32,7 @@ function ProtectedRoutes({ isLoading, setIsLoading }) {
         checkAuth()
     }, [location.pathname])
 
-    if (isLoading) return <Spinner animation="grow" variant="secondary" />
+    if (isLoading) return ( <div className="d-flex justify-content-center align-items-center" style={{height: '50vh'}}><Spinner animation="grow" variant="secondary" /></div>)
     else if (!user) {
         return <Navigate to="/login" replace />
     } else {
