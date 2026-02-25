@@ -50,7 +50,7 @@ function StatusCard({ post }) {
     startTransition(async () => {
       try {
         if (!isLiked) {
-          setOptimisticTotalLikes(prev => prev + 1)
+          setOptimisticTotalLikes(totalLikes + 1)
           setOptimisticIsLiked(true)
           const likeResponse = await axiosInstance.post(`/like/${post.id}`)
           if (likeResponse.status === 200) {
@@ -68,7 +68,7 @@ function StatusCard({ post }) {
     startTransition(async () => {
       try {
         if (isLiked) {
-          setOptimisticTotalLikes(prev => prev - 1)
+          setOptimisticTotalLikes(totalLikes - 1)
           setOptimisticIsLiked(false)
           const likeResponse = await axiosInstance.delete(`/like/${post.id}`)
           if (likeResponse.status === 200) {
